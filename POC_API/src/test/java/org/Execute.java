@@ -24,7 +24,7 @@ public class Execute {
 
         for(String each : list){
             String[] s = each.trim().split(" ");
-            List<String> dataList = Arrays.stream(s).collect(Collectors.toList()).stream().filter(p -> Objects.nonNull(p) && !p.trim().isEmpty()).collect(Collectors.toList());
+            List<String> dataList = Arrays.stream(s).filter(p -> Objects.nonNull(p) && !p.trim().isEmpty()).collect(Collectors.toList());
             dataList.remove(s[0]);
             fakeFileMap.put(s[0],dataList);
         }
