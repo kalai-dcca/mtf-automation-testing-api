@@ -7,16 +7,16 @@ import java.util.Map;
 
 public class Execute {
     public static void main(String[] args) {
-        FileManager.createFileCopy("C:\\Users\\aturuk\\IdeaProjects\\mtf-automation-testing-api\\confirmClone.txt",
-                "C:\\Users\\aturuk\\IdeaProjects\\mtf-automation-testing-api\\confirmCloneDup.txt");
+        FileManager.createFileCopy("confirmClone.txt",
+                "confirmCloneDup.txt");
 
-        Map<String,String> data =  FileManager.getFileDirectory("C:\\Users\\aturuk\\IdeaProjects\\mtf-automation-testing-api");
+        Map<String,String> data =  FileManager.getFileDirectory("mtf-automation-testing-api");
 
-        FileManager.createFile("C:\\Users\\aturuk\\IdeaProjects\\mtf-automation-testing-api","testFile",".pdf");
+        FileManager.createFile("mtf-automation-testing-api","testFile",".pdf");
 
-        StringBuilder sb = FileManager.readFile("C:\\Users\\aturuk\\IdeaProjects\\mtf-automation-testing-api\\confirmClone.txt");
+        StringBuilder sb = FileManager.readFile("confirmClone.txt");
 
-        List<String> list = FileManager.readFileLines("C:\\Users\\aturuk\\IdeaProjects\\mtf-automation-testing-api\\confirmClone.txt");
+        List<String> list = FileManager.readFileLines("confirmClone.txt");
 
         Map<Integer,List<String>> dataCsv = FileManager.getDataFromCsv("list.csv",",");
     }
