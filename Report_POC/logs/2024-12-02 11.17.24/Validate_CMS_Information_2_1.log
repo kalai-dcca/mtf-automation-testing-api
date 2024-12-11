@@ -1,0 +1,7 @@
+2024-12-02 11:17:39,528 [INFO  ] [MyLogger.java:98] - org.utilities.MyLogger:startTestCase 17==>  Execution Started : Validate_CMS_Information_2
+2024-12-02 11:17:40,444 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders2$1 61==>  About
+2024-12-02 11:17:40,460 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders2$1 61==>  Store
+2024-12-02 11:17:40,469 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders2$1 61==>  
+2024-12-02 11:17:40,477 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders2$1 61==>  Gmail
+2024-12-02 11:18:10,499 [ERROR ] [MyLogger.java:81] - org.steps.Hooks:afterScenario 22==>  Scenario:[Validate CMS Information 2] - Status - FAILED
+2024-12-02 11:18:10,670 [INFO  ] [MyLogger.java:98] - org.utilities.MyLogger:endTestCase 21==>  Execution End : Validate CMS Information 2
