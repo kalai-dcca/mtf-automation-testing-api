@@ -4,7 +4,7 @@ import config.Configuration;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import utils.LoggerUtil;
+import utilities.LoggerUtil;
 
 import java.util.Map;
 
