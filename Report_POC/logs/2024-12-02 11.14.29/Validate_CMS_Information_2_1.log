@@ -1,0 +1,4 @@
+2024-12-02 11:14:38,871 [INFO  ] [MyLogger.java:98] - org.utilities.MyLogger:startTestCase 17==>  Execution Started : Validate_CMS_Information_2
+2024-12-02 11:14:40,697 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders2$1 61==>  About
+2024-12-02 11:15:10,719 [ERROR ] [MyLogger.java:81] - org.steps.Hooks:afterScenario 22==>  Scenario:[Validate CMS Information 2] - Status - FAILED
+2024-12-02 11:15:10,905 [INFO  ] [MyLogger.java:98] - org.utilities.MyLogger:endTestCase 21==>  Execution End : Validate CMS Information 2

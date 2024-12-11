@@ -1,0 +1,8 @@
+2024-12-02 11:13:14,871 [INFO  ] [MyLogger.java:98] - org.utilities.MyLogger:startTestCase 17==>  Execution Started : Validate_CMS_Information
+2024-12-02 11:13:23,903 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders$0 49==>  
+2024-12-02 11:13:23,928 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders$0 49==>  Medicare
+2024-12-02 11:13:23,938 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders$0 49==>  Marketplace & Private Insurance
+2024-12-02 11:13:23,950 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders$0 49==>  Priorities
+2024-12-02 11:13:23,963 [INFO  ] [MyLogger.java:98] - org.pageClasses.CMSOverviewPageClass:lambda$validateHeaders$0 49==>  Training & Education
+2024-12-02 11:13:23,974 [INFO  ] [MyLogger.java:98] - org.steps.Hooks:afterScenario 25==>  Scenario:[Validate CMS Information] - Status - PASSED
+2024-12-02 11:13:23,975 [INFO  ] [MyLogger.java:98] - org.utilities.MyLogger:endTestCase 21==>  Execution End : Validate CMS Information
