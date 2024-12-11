@@ -1,8 +1,8 @@
-package stepdefinitions;
+package step.demoStep;
 
 import io.cucumber.java.Before;
 import io.cucumber.java.After;
-import utils.LoggerUtil;
+import utilities.LoggerUtil;
 
 public class Hooks {
 

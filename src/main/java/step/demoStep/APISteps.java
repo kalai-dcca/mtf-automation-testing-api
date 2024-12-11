@@ -1,10 +1,10 @@
-package stepdefinitions;
+package step.demoStep;
 
 import api.BaseAPI;
 import data.UserData;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
-import utils.AssertionUtils;
+import utilities.AssertionUtils;
 
 public class APISteps {
 
