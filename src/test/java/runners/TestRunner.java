@@ -7,11 +7,11 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         features = "src/test/resources/features",
-        glue = "stepdefinitions",
+        glue = "step",
         plugin = {"pretty",
                 "html:target/cucumber-reports/cucumber-reports.html",
                 "summary",
-                "reports.ExtentReportListener"},
+                "step.reports.ExtentReportListener"},
         tags = "@wip",
         monochrome = true,
         dryRun = false
