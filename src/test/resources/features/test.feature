@@ -6,7 +6,7 @@ Feature: DEMO API Testing
     Then Read test data from the sheet "demoTest" for the "<TestCaseId>"
 
     When DemoAPI: Launch "/api/users", Method: "POST", request params: File "TC1000"
-    Then Verify status code <statusCode> and message "<message>"
+    Then Verify status code 201 and message "morpheus"
 
     Examples:
       | TestCaseId |
