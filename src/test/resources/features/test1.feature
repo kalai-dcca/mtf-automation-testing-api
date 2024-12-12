@@ -1,12 +1,12 @@
 Feature: API Testing
-  @wip
+  @wip @API
   Scenario: Verify GET request
     When I send a GET request to "/api/users?page=2"
     Then the response status code should be 200
     And the response should contain "data[0].email"
 
 
-  @wip
+  @wip @API
   Scenario: Verify POST request
     When I send a POST request to "/api/users" with body:
      """

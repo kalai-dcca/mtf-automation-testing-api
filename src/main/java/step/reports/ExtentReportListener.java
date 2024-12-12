@@ -7,8 +7,16 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 import io.cucumber.plugin.ConcurrentEventListener;
 import io.cucumber.plugin.event.*;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +24,7 @@ public class ExtentReportListener implements ConcurrentEventListener {
 
     private static ExtentReports extent;
     private static Map<String, ExtentTest> scenarioTestMap = new HashMap<>();
+    private static WebDriver driver;
 
     static {
         ExtentSparkReporter htmlReporter = new ExtentSparkReporter("target/cucumber-reports/extent-report.html");
@@ -32,8 +41,7 @@ public class ExtentReportListener implements ConcurrentEventListener {
         extent.setSystemInfo("Tester", testerName);
 
         // Fetch Git branch name
-        String branchName = getGitBranch();
-        extent.setSystemInfo("Branch", branchName);
+        extent.setSystemInfo("Branch", getGitBranch());
 
         // Additional system info
         extent.setSystemInfo("Environment", "QA");
@@ -43,26 +51,15 @@ public class ExtentReportListener implements ConcurrentEventListener {
     @Override
     public void setEventPublisher(EventPublisher publisher) {
         publisher.registerHandlerFor(TestCaseStarted.class, this::onTestCaseStarted);
-        publisher.registerHandlerFor(TestStepStarted.class, this::onTestStepStarted);
         publisher.registerHandlerFor(TestStepFinished.class, this::onTestStepFinished);
         publisher.registerHandlerFor(TestCaseFinished.class, this::onTestCaseFinished);
     }
 
     private void onTestCaseStarted(TestCaseStarted event) {
-        // Create a test and assign the tester name
         ExtentTest test = extent.createTest(event.getTestCase().getName())
                 .assignAuthor(System.getProperty("tester.name", System.getProperty("user.name", "Unknown Tester")));
         test.info("Test Started: " + event.getTestCase().getName());
         scenarioTestMap.put(event.getTestCase().getId().toString(), test);
-    }
-
-
-    private void onTestStepStarted(TestStepStarted event) {
-        ExtentTest test = scenarioTestMap.get(event.getTestCase().getId().toString());
-        if (event.getTestStep() instanceof PickleStepTestStep) {
-            String stepName = ((PickleStepTestStep) event.getTestStep()).getStep().getText();
-            test.info("Step Started: " + stepName);
-        }
     }
 
     private void onTestStepFinished(TestStepFinished event) {
@@ -76,6 +73,11 @@ public class ExtentReportListener implements ConcurrentEventListener {
             } else if (event.getResult().getStatus() == Status.SKIPPED) {
                 test.skip("Step Skipped: " + stepName);
             }
+
+            // Capture a screenshot for UI tests
+            if (isUITest(event)) {
+                attachScreenshot(test, stepName);
+            }
         }
     }
 
@@ -86,7 +88,34 @@ public class ExtentReportListener implements ConcurrentEventListener {
         } else if (event.getResult().getStatus() == Status.FAILED) {
             test.fail("Test Failed: " + event.getResult().getError().getMessage());
         }
-        extent.flush(); // Ensure flushing is done here
+        extent.flush();
+    }
+
+    // Helper method to determine if the test is a UI test
+    private boolean isUITest(TestStepFinished event) {
+        return event.getTestCase().getTags().contains("@UI");
+    }
+
+    // Attach a screenshot to the report
+    private static void attachScreenshot(ExtentTest test, String title) {
+        try {
+            if (driver != null) {
+                File srcFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+                Path destPath = Paths.get("target/screenshots/" + title.replaceAll("[^a-zA-Z0-9]", "_") + ".png");
+                Files.createDirectories(destPath.getParent());
+                Files.copy(srcFile.toPath(), destPath);
+                test.addScreenCaptureFromPath(destPath.toString(), title);
+            } else {
+                test.warning("WebDriver instance is null. Screenshot not captured.");
+            }
+        } catch (Exception e) {
+            test.warning("Failed to capture screenshot: " + e.getMessage());
+        }
+    }
+
+    // Set WebDriver instance (call this method before test execution)
+    public static void setWebDriver(WebDriver webDriver) {
+        driver = webDriver;
     }
 
     // Helper method to get the current Git branch name
