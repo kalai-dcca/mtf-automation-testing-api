@@ -1,5 +1,8 @@
 package utilities;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -150,5 +153,47 @@ public class FileHandlerUtility {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Function to create JSON File
+     * @param filePath location
+     * @param keyValueMap value
+     */
+    public static void createJsonFile(String filePath, Map<String,List<String>> keyValueMap){
+        JSONObject jsonObject = new JSONObject();
+
+        for(Map.Entry<String,List<String>> entry : keyValueMap.entrySet()){
+            jsonObject.put(entry.getKey(),new JSONArray(entry.getValue()));
+        }
+        createFile(filePath,"test",".json");
+
+        try(FileWriter fileWriter = new FileWriter("test.json")){
+            fileWriter.write(jsonObject.toString(4));
+        }catch (IOException e){
+            e.getStackTrace();
+        }
+    }
+
+    public static JSONObject getJsonObjectFromTxtFile(String file){
+        List<String> list = FileHandlerUtility.readFileLines(file);
+
+        Map<String,List<String>> fakeFileMap = new HashMap<>();
+
+        for(String each : list){
+            String[] s = each.trim().split(" ");
+            List<String> dataList = Arrays.stream(s).filter(p -> Objects.nonNull(p) && !p.trim().isEmpty()).collect(Collectors.toList());
+            dataList.remove(s[0]);
+            fakeFileMap.put(s[0],dataList);
+        }
+        FileHandlerUtility.createJsonFile(System.getProperty("user.dir"),fakeFileMap);
+
+
+        JSONObject jsonObject = new JSONObject();
+
+        for(Map.Entry<String,List<String>> entry : fakeFileMap.entrySet()){
+            jsonObject.put(entry.getKey(),new JSONArray(entry.getValue()));
+        }
+        return jsonObject;
     }
 }
