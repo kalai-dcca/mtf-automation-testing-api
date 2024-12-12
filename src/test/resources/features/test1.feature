@@ -1,4 +1,3 @@
-@wip
 Feature: API Testing
 
   Scenario: Verify GET request
@@ -7,7 +6,7 @@ Feature: API Testing
     And the response should contain "data[0].email"
 
 
-
+  @wip
   Scenario: Verify POST request
     When I send a POST request to "/api/users" with body:
      """
