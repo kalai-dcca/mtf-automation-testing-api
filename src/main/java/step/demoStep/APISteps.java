@@ -1,7 +1,6 @@
 package step.demoStep;
 
 import api.BaseAPI;
-import data.UserData;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
 import utilities.AssertionUtils;
@@ -32,18 +31,4 @@ public class APISteps {
         response = baseAPI.post(endpoint, body);
     }
 
-    @When("I send a GET request by id to {string}")
-    public void i_send_a_get_request_to(String endpoint) {
-        response = baseAPI.get(endpoint + UserData.id);
-    }
-
-    @Then("I delete the created user")
-    public void iDeleteTheCreatedUser() {
-        response = baseAPI.delete("/api/users" + UserData.id);
-    }
-
-    @Then("I saved the Id for created user")
-    public void iSavedTheIdForCreatedUser() {
-        UserData.id= response.jsonPath().getString("id");
-    }
 }
