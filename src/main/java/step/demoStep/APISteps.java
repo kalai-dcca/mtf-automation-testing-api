@@ -1,7 +1,6 @@
 package step.demoStep;
 
 import api.BaseAPI;
-import data.UserData;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
@@ -11,7 +10,7 @@ public class APISteps {
 
     private BaseAPI baseAPI = new BaseAPI();
     private Response response;
-
+    String id="";
 
     @When("I send a GET request to {string}")
     public void iSendAGETRequestTo(String endpoint) {
@@ -35,17 +34,17 @@ public class APISteps {
 
     @When("I send a GET request by id to {string}")
     public void i_send_a_get_request_to(String endpoint) {
-        response = baseAPI.get(endpoint + UserData.id);
+        response = baseAPI.get(endpoint + id);
     }
 
     @Then("I delete the created user")
     public void iDeleteTheCreatedUser() {
-        response = baseAPI.delete("/api/users" + UserData.id);
+        response = baseAPI.delete("/api/users" + id);
     }
 
     @Then("I saved the Id for created user")
     public void iSavedTheIdForCreatedUser() {
-        UserData.id= response.jsonPath().getString("id");
+        id = response.jsonPath().getString("id");
     }
 
     @Then("the response should contain field {string} equal {string}")

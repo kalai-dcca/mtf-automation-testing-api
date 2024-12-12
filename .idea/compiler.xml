@@ -6,12 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Report_POC" />
         <module name="mtf-automation-testing-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="POC" target="21" />
-      <module name="Report_POC" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

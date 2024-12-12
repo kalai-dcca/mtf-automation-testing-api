@@ -11,7 +11,7 @@ import org.junit.runner.RunWith;
         plugin = {"pretty",
                 "html:target/cucumber-reports/cucumber-reports.html",
                 "summary",
-                "listeners.ExtentReportListener"},
+                "reports.ExtentReportListener"},
         tags = "@wip",
         monochrome = true,
         dryRun = false

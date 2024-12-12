@@ -67,10 +67,8 @@ public class BaseAPI {
      * @param body        Request payload.
      */
     public Response patch(String endpoint, String body) {
-        LoggerUtil.logger.info("Sending PATCH request for" + endpoint+ " with body "+body);
-        Response response= request.body(body).patch(endpoint);
-        LoggerUtil.logger.info("Got patch response as "+response.body().asString());
-        return response;
+        LoggerUtil.logger.info("Sending PATCH request for" + endpoint+ "with body "+body);
+        return request.body(body).patch(endpoint);
     }
 
     /**
