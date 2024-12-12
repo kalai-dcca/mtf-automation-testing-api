@@ -3,6 +3,7 @@ package step.demoStep;
 import api.BaseAPI;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
+import org.junit.Assert;
 import utilities.AssertionUtils;
 
 public class APISteps {
@@ -23,7 +24,7 @@ public class APISteps {
 
     @Then("the response should contain {string}")
     public void theResponseShouldContain(String key) {
-        AssertionUtils.assertFieldExists(response,key);
+        Assert.assertTrue(AssertionUtils.assertFieldExists(response,key));
     }
 
     @When("I send a POST request to {string} with body:")
