@@ -12,10 +12,9 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber-reports/cucumber-reports.html",
                 "summary",
                 "listeners.ExtentReportListener"},
-
-
-
-        tags = "@wip"
+        tags = "@wip",
+        monochrome = true,
+        dryRun = false
 )
 
 public class TestRunner {

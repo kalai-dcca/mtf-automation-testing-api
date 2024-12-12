@@ -1,3 +1,4 @@
+@wip
 Feature: API Testing
 
 
@@ -17,7 +18,7 @@ Feature: API Testing
     Then the response should contain field "name" equal "John Doe"
     Then the response should contain field "job" equal "Developer"
 
-  @wip
+
   Scenario Outline: Verify PATCH request for different fields
     Given I send a PATCH request to "/api/users/2" with body:
      """

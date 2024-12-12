@@ -1,3 +1,4 @@
+@wip
 Feature: API Testing
 
   Scenario: Verify GET request
