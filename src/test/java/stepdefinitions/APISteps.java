@@ -2,6 +2,7 @@ package stepdefinitions;
 
 import api.BaseAPI;
 import data.UserData;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
 import utils.AssertionUtils;
@@ -46,4 +47,28 @@ public class APISteps {
     public void iSavedTheIdForCreatedUser() {
         UserData.id= response.jsonPath().getString("id");
     }
+
+    @Then("the response should contain field {string} equal {string}")
+    public void theResponseShouldContainFieldEqual(String key, String value) {
+        AssertionUtils.assertFieldValue(response,key,value);
+    }
+
+    @Given("I send a PUT request to {string} with body:")
+    public void iSendAPUTRequestToWithBody(String endpoint,String body) {
+        response = baseAPI.put(endpoint, body);
+    }
+
+
+    @Given("the following headers are set:")
+    public void theFollowingHeadersAreSet(DataTable dataTable) {
+        baseAPI.addHeaders(dataTable.asMap());
+    }
+
+    @Given("I send a PATCH request to {string} with body:")
+    public void i_send_a_patch_request_to_with_body(String endpoint, String body) {
+        response = baseAPI.patch(endpoint, body);
+    }
+
+
+
 }
