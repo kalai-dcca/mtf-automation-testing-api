@@ -11,7 +11,7 @@ Key Components
    -- Configuration.java: Manages and loads properties like base URLs, timeouts, etc.
 3. Data Layer (src/main/java/data/)
    -- UserData.java: Manages test data.
-4. Utilities (src/main/java/utils/)
+4. Utilities (src/main/java/utilities/)
    -- DBUtils.java: Database connection utilities.
    -- LoggerUtil.java: Custom logging utility for debugging.
 5. Test Layer
