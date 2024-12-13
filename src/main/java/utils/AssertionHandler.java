@@ -1,5 +1,7 @@
 package utils;
 
+import utilities.LoggerUtil;
+
 public class AssertionHandler {
 
     public enum AssertType{

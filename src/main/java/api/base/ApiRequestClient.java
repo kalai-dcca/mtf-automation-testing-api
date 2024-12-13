@@ -2,9 +2,11 @@ package api.base;
 
 import io.cucumber.core.internal.com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
+import org.json.JSONObject;
 
 import java.io.File;
 
+import static core.BaseClass.getTestScenarioClass;
 import static io.restassured.RestAssured.given;
 
 public class ApiRequestClient {
@@ -28,6 +30,30 @@ public class ApiRequestClient {
                 break;
             case "PUT":
                 response = given().body(requestBody).put(baseUrl + endpoint);
+                break;
+            case "DELETE":
+                response = given().delete(baseUrl + endpoint);
+                break;
+            default:
+                throw new IllegalArgumentException("Unsupported HTTP method: " + method);
+        }
+
+        return response;
+    }
+
+    public Response sendApiRequest(String endpoint, String method) {
+
+        // Send request based on HTTP method
+        Response response;
+        switch (method.toUpperCase()) {
+            case "GET":
+                response = given().get(baseUrl + endpoint);
+                break;
+            case "POST":
+                response = given().body(getTestScenarioClass().getJsonObject()).post(baseUrl + endpoint);
+                break;
+            case "PUT":
+                response = given().body(getTestScenarioClass().getJsonObject()).put(baseUrl + endpoint);
                 break;
             case "DELETE":
                 response = given().delete(baseUrl + endpoint);

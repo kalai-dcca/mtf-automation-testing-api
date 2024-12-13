@@ -1,18 +1,22 @@
 package utilities;
 
+import enums.SheetType;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.json.JSONObject;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ExcelUtils {
   
    private Workbook workbook;
-    private Sheet sheet;
+    private static Sheet sheet;
     private String filePath;
 
     // Constructor to initialize Excel file and sheet
@@ -29,6 +33,49 @@ public class ExcelUtils {
         } catch (IOException e) {
             throw new RuntimeException("Failed to load Excel file: " + e.getMessage());
         }
+    }
+
+    public static Row getRow(String testCase){
+        Row row = null;
+        for (Row cells : sheet) {
+            row = cells;
+            if (row.getCell(0).getStringCellValue().equals(testCase)) {
+                break;
+            }
+        }
+        return row;
+    }
+
+    public static String getUserId(String testCase){
+        Row row = getRow(testCase);
+        return row.getCell(1).getStringCellValue();
+    }
+
+    public static JSONObject getDataBasedOnTestCaseAndCallType(String testCase, String sheetType) throws Exception {
+        JSONObject js = new JSONObject();
+        Row row = getRow(testCase);
+        if(Objects.nonNull(row)){
+            switch (Objects.requireNonNull(SheetType.getSheetTypeEnum(sheetType))){
+                case CREATE:
+                case UPDATE_PUT:
+                    js.put("name",row.getCell(1).getStringCellValue());
+                    js.put("job",row.getCell(2).getStringCellValue());
+                    break;
+                case UPDATE_PATCH:
+                    if(row.getCell(4).getStringCellValue().equals("all")){
+                        js.put("name",row.getCell(1).getStringCellValue());
+                        js.put("job",row.getCell(2).getStringCellValue());
+                    }else if(row.getCell(4).getStringCellValue().equals("1")){
+                        js.put("name",row.getCell(1).getStringCellValue());
+                    }else{
+                        js.put("job",row.getCell(2).getStringCellValue());
+                    }
+                    break;
+                default:
+                    throw new Exception();
+            }
+        }
+        return js;
     }
 
     public static String readTestCaseIdFromExcel(String testcaseFile) {

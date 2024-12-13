@@ -2,13 +2,17 @@ package step.demoStep;
 
 import api.demo.demoApiRequest;
 import api.demo.demoApiResponse;
+import core.BaseClass;
+import enums.SheetType;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import org.junit.Assert;
 import utilities.AssertionUtils;
 import utilities.ExcelUtils;
 import utilities.LoggerUtil;
 
+import static core.BaseClass.getTestScenarioClass;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,4 +68,35 @@ public class demoApiStepDefinition {
     }
 
 
+    @When("TestCaseDataSetup, File-{string}, Sheet-{string}, TestCase-{string}")
+    public void testcasedatasetupFileSheetTestCase(String fileName, String sheet, String testCase) {
+        try{
+            ExcelUtils excelUtils = new ExcelUtils(BaseClass.TEST_DATA_PATH+fileName,sheet);
+            getTestScenarioClass().setExcelUtils(excelUtils);
+            getTestScenarioClass().setJsonObject(ExcelUtils.getDataBasedOnTestCaseAndCallType(testCase, sheet));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @When("DemoAPI: Launch {string}, Method: {string}")
+    public void demoapiLaunchMethod(String url, String APICall) {
+        getTestScenarioClass().setResponse(demoApiMethods.launchDemoApiAndGetResponse(url, APICall));
+    }
+
+    @Then("Verify status code {int}")
+    public void verifyStatusCode(int expectedStatusCode) {
+        try{
+            // Validate the status code and response message using the AssertionUtils method
+            boolean result = AssertionUtils.verifyStatusCode(getTestScenarioClass().getResponse(), expectedStatusCode);
+
+            // Assert the result to ensure the validation passes
+            assertThat("Status code or message validation failed!", result, equalTo(true));
+            LoggerUtil.logger.info("Validation completed successfully for status code {}",
+                    expectedStatusCode);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
