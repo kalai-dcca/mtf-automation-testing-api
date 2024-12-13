@@ -45,23 +45,24 @@ public class demoApiStepDefinition {
         apiResponse = demoApiMethods.launchDemoApi(endpoint, method, jsonFile);
     }
 
-    //@Then("Verify status code {int} and message {string}")
-    //public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
-        // Validate the status code and response message
-      //  assertEquals(expectedStatusCode, apiResponse.getStatusCode(), "Status code mismatch");
-       // assertTrue(apiResponse.containsMessage(expectedMessage), "Response message mismatch");
-    //}
+//    @Then("Verify status code {int} and message {string}")
+//    public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
+//        // //Validate the status code and response message
+//        assertEquals(expectedStatusCode, apiResponse.getStatusCode(), "Status code mismatch");
+//        assertTrue(apiResponse.containsMessage(expectedMessage), "Response message mismatch");
+//    }
 
     @Then("Verify status code {int} and message {string}")
     public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
-        // Validate the status code and response message using the AssertionUtils method
-        boolean result = AssertionUtils.verifyStatusCodeAndMessage((Response) apiResponse, expectedStatusCode, "message", expectedMessage);
+        // Use AssertionUtils for validation
+        boolean result = AssertionUtils.verifyStatusCodeAndMessage(apiResponse.getResponse(), expectedStatusCode, expectedMessage);
 
         // Assert the result to ensure the validation passes
         assertThat("Status code or message validation failed!", result, equalTo(true));
         LoggerUtil.logger.info("Validation completed successfully for status code {} and message {}",
                 expectedStatusCode, expectedMessage);
     }
+
 
 
 }
