@@ -4,8 +4,13 @@ import api.demo.demoApiRequest;
 import api.demo.demoApiResponse;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
+import utilities.AssertionUtils;
 import utilities.ExcelUtils;
+import utilities.LoggerUtil;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class demoApiStepDefinition {
@@ -40,10 +45,23 @@ public class demoApiStepDefinition {
         apiResponse = demoApiMethods.launchDemoApi(endpoint, method, jsonFile);
     }
 
+    //@Then("Verify status code {int} and message {string}")
+    //public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
+        // Validate the status code and response message
+      //  assertEquals(expectedStatusCode, apiResponse.getStatusCode(), "Status code mismatch");
+       // assertTrue(apiResponse.containsMessage(expectedMessage), "Response message mismatch");
+    //}
+
     @Then("Verify status code {int} and message {string}")
     public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
-        // Validate the status code and response message
-        assertEquals(expectedStatusCode, apiResponse.getStatusCode(), "Status code mismatch");
-        assertTrue(apiResponse.containsMessage(expectedMessage), "Response message mismatch");
+        // Validate the status code and response message using the AssertionUtils method
+        boolean result = AssertionUtils.verifyStatusCodeAndMessage((Response) apiResponse, expectedStatusCode, "message", expectedMessage);
+
+        // Assert the result to ensure the validation passes
+        assertThat("Status code or message validation failed!", result, equalTo(true));
+        LoggerUtil.logger.info("Validation completed successfully for status code {} and message {}",
+                expectedStatusCode, expectedMessage);
     }
+
+
 }
