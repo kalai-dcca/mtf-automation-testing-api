@@ -19,7 +19,8 @@ public class AssertionUtils {
         ASSERT_FIELD_VALUE,
         ASSERT_RESPONSE_TIME,
         ASSERT_FIELD_MATCHES_REGEX,
-        ASSERT_MAP_CONTAINS
+        ASSERT_MAP_CONTAINS,
+        VERIFY_STATUS_CODE_AND_MESSAGE
     }
 
     /**
@@ -221,6 +222,41 @@ public class AssertionUtils {
         } catch (Exception e) {
             LoggerUtil.logger.error(String.format("Function[%s]::MapField[%s]::Status[%s]%n",
                     Functions.ASSERT_MAP_CONTAINS, mapField,status));
+            LoggerUtil.logger.error(ExceptionUtils.printStackTrace(e));
+        }
+        return status;
+    }
+
+    /**
+     * Validates that the response status code and a specific message in the response body match the expected values.
+     *
+     * @param response          The Response object.
+     * @param expectedStatusCode The expected status code.
+     * @param messageField       The field in the response containing the message.
+     * @param expectedMessage    The expected message value.
+     * @return True if both validations pass, false otherwise.
+     */
+    public static boolean verifyStatusCodeAndMessage(Response response, int expectedStatusCode, String messageField, String expectedMessage) {
+        boolean status = false;
+        try {
+            if (Objects.nonNull(response) && StringUtils.isNotBlank(messageField)) {
+                // Validate the status code
+                boolean statusCodeMatch = Objects.equals(response.getStatusCode(), expectedStatusCode);
+                assertThat("Unexpected status code!", response.getStatusCode(), equalTo(expectedStatusCode));
+
+                // Validate the message field
+                String actualMessage = response.jsonPath().getString(messageField);
+                assertThat("Unexpected message!", actualMessage, equalTo(expectedMessage));
+
+                status = statusCodeMatch && actualMessage.equals(expectedMessage);
+                LoggerUtil.logger.info(String.format("Function[%s]::StatusCode[%s]::ExpectedMessage[%s]::ActualMessage[%s]::Status[%s]%n",
+                        Functions.VERIFY_STATUS_CODE_AND_MESSAGE, expectedStatusCode, expectedMessage, actualMessage, status));
+            } else {
+                throw new IllegalArgumentException("Response or messageField is null or blank.");
+            }
+        } catch (Exception e) {
+            LoggerUtil.logger.error(String.format("Function[%s]::ExpectedStatusCode[%s]::ExpectedMessage[%s]::Status[%s]%n",
+                    Functions.VERIFY_STATUS_CODE_AND_MESSAGE, expectedStatusCode, expectedMessage, status));
             LoggerUtil.logger.error(ExceptionUtils.printStackTrace(e));
         }
         return status;
