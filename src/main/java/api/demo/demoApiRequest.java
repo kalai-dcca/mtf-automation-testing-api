@@ -6,7 +6,7 @@ import io.restassured.response.Response;
 public class demoApiRequest {
 
 
-    private ApiRequestClient apiRequestClient = new ApiRequestClient();
+    private final ApiRequestClient apiRequestClient = new ApiRequestClient();
 
     // Method to handle Demo API request logic
     public demoApiResponse launchDemoApi(String endpoint, String method, String jsonFile) {
@@ -14,6 +14,15 @@ public class demoApiRequest {
         Response response = apiRequestClient.sendApiRequest(endpoint, method, jsonFile);
         // Return wrapped response as ApiResponse
         return new demoApiResponse(response);
+    }
+
+    public demoApiResponse launchDemoApi(String endpoint, String method){
+        Response response = apiRequestClient.sendApiRequest(endpoint, method);
+        return new demoApiResponse(response);
+    }
+
+    public Response launchDemoApiAndGetResponse(String endpoint, String method){
+        return apiRequestClient.sendApiRequest(endpoint, method);
     }
 }
 

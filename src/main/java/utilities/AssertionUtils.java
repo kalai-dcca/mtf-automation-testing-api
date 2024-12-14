@@ -2,6 +2,7 @@ package utilities;
 
 import io.cucumber.core.exception.ExceptionUtils;
 import io.cucumber.core.internal.com.fasterxml.jackson.databind.util.ExceptionUtil;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.apache.commons.lang3.StringUtils;
 
