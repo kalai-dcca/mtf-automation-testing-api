@@ -52,8 +52,7 @@ public class AssertionUtils {
                     "",field,false));
         }
         AssertionHandler.logAssertionError(() ->{
-            // FIGURE OUT IN ASSERTJ
-            Assertions.assertThat(response.jsonPath().ge);
+            Assertions.assertThat(response.jsonPath().getString(field)).isNotNull();
         },"Field '" + field + "' is missing in the response!");
         //return status;
     }
@@ -79,8 +78,7 @@ public class AssertionUtils {
         }
 
         AssertionHandler.logAssertionError(() ->{
-            //// FIGURE OUT IN ASSERTJ
-            Assertions.assertThat(response.jsonPath().get(field).isEqualTo((expectedValue));
+            Assertions.assertThat(response.jsonPath().getString(field)).isEqualTo(expectedValue);
         },"Field '" + field + "' does not have the expected value " + expectedValue + "!");
         //return status;
     }
@@ -99,8 +97,7 @@ public class AssertionUtils {
                     null,false));
         }
         AssertionHandler.logAssertionError(() ->{
-            //// FIGURE OUT IN ASSERTJ
-            Assertions.assertThat(response.getTime().lessThanOrEqualTo(maxResponseTime));
+            Assertions.assertThat(response.getTime()).isLessThanOrEqualTo(maxResponseTime);
         },"Response time exceeded " + maxResponseTime);
        // return status;
     }
@@ -122,8 +119,7 @@ public class AssertionUtils {
                     null,regex,false));
         }
         AssertionHandler.logAssertionError(() ->{
-            //// NOT SURE IF THIS THROWS ASSERTION ERROR
-            Assertions.assertThat(response.jsonPath().getString(field).matches(regex));
+            Assertions.assertThat(response.jsonPath().getString(field)).matches(regex);
         },"Field '" + field + "' does not match the regex " + regex + "!");
         //return status;
     }
@@ -146,10 +142,11 @@ public class AssertionUtils {
         Map<String, Object> actualEntries = response.jsonPath().getMap(mapField);
         expectedEntries.forEach((key, value) -> {
             AssertionHandler.logAssertionError(() ->{
-                //// NEED ASSERTJ EQUIVALENT
-                Assertions.assertThat(actualEntries.entrySet());
+                Object actualValue = response.jsonPath().get(key);
+                Assertions.assertThat(actualValue).isEqualTo(value);
             },"Map '" + mapField + "' does not contain expected entry " + value);
-        }
+        });
+
         //return status;
     }
 
@@ -160,7 +157,6 @@ public class AssertionUtils {
      * @param expectedStatusCode The expected status code.
      * @param messageField       The field in the response containing the message.
      * @param expectedMessage    The expected message value.
-     * @return True if both validations pass, false otherwise.
      */
     public static void verifyStatusCodeAndMessage(Response response, int expectedStatusCode, String messageField, String expectedMessage) {
         //boolean status = false;
@@ -169,17 +165,16 @@ public class AssertionUtils {
             LoggerUtil.logger.error("Error: Response is null");
             throw new RuntimeException(String.format("Actual[%s]::Expected[%s]::Status[%s]%n",
                     null,expectedStatusCode,false));
-        } else if ( StringUtils.isEmpty(field)) {
+        } else if (StringUtils.isEmpty(messageField)) {
             LoggerUtil.logger.error("Error: Message is empty");
             throw new RuntimeException(String.format("Actual[%s]::Expected[%s]::Status[%s]%n",
                     "",expectedMessage,false));
         }
 
-        //// NEED ASSERTJ EQUIVALENT
         SoftAssertions soft = new SoftAssertions();
         AssertionHandler.logAssertionError(() ->{
             soft.assertThat(response.getStatusCode()).isEqualTo((expectedStatusCode));
-            soft.assertThat(response.jsonPath().getString(messageField).isEqualTo((expectedMessage));
+            soft.assertThat(response.jsonPath().getString(messageField)).isEqualTo((expectedMessage));
             soft.assertAll();
         }, "Error: Status code or message validation failed!");
 
@@ -187,3 +182,4 @@ public class AssertionUtils {
     }
 
 }
+
