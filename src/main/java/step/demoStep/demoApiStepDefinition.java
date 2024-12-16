@@ -59,7 +59,7 @@ public class demoApiStepDefinition {
     @Then("Verify status code {int} and message {string}")
     public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
         // Validate the status code and response message using the AssertionUtils method
-        boolean result = AssertionUtils.verifyStatusCodeAndMessage((Response) apiResponse, expectedStatusCode, "message", expectedMessage);
+        boolean result = AssertionUtils.verifyStatusCodeAndMessage(getTestScenarioClass().getResponse(), expectedStatusCode, expectedMessage);
 
         // Assert the result to ensure the validation passes
         assertThat("Status code or message validation failed!", result, equalTo(true));

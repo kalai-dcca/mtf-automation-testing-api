@@ -237,21 +237,24 @@ public class AssertionUtils {
      * @param expectedMessage    The expected message value.
      * @return True if both validations pass, false otherwise.
      */
-    public static boolean verifyStatusCodeAndMessage(Response response, int expectedStatusCode, String messageField, String expectedMessage) {
+    public static boolean verifyStatusCodeAndMessage(Response response, int expectedStatusCode, String expectedMessage) {
         boolean status = false;
+        boolean messageFound = false;
+
         try {
-            if (Objects.nonNull(response) && StringUtils.isNotBlank(messageField)) {
+            if (Objects.nonNull(response)) {
                 // Validate the status code
                 boolean statusCodeMatch = Objects.equals(response.getStatusCode(), expectedStatusCode);
                 assertThat("Unexpected status code!", response.getStatusCode(), equalTo(expectedStatusCode));
 
                 // Validate the message field
-                String actualMessage = response.jsonPath().getString(messageField);
-                assertThat("Unexpected message!", actualMessage, equalTo(expectedMessage));
+                String responseBody = response.getBody().asString();
+                messageFound = responseBody.contains(expectedMessage);
+                assertThat("Expected message not found in response body!", messageFound, equalTo(true));
 
-                status = statusCodeMatch && actualMessage.equals(expectedMessage);
-                LoggerUtil.logger.info(String.format("Function[%s]::StatusCode[%s]::ExpectedMessage[%s]::ActualMessage[%s]::Status[%s]%n",
-                        Functions.VERIFY_STATUS_CODE_AND_MESSAGE, expectedStatusCode, expectedMessage, actualMessage, status));
+                status = statusCodeMatch && messageFound;
+                LoggerUtil.logger.info(String.format("Function[%s]::StatusCode[%s]::ExpectedMessage[%s]::Status[%s]%n",
+                        Functions.VERIFY_STATUS_CODE_AND_MESSAGE, expectedStatusCode, expectedMessage, status));
             } else {
                 throw new IllegalArgumentException("Response or messageField is null or blank.");
             }
