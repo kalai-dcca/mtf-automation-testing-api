@@ -1,7 +1,7 @@
-@REG-API-CREATE @REG-API
-Feature: DEMO API Testing
+@REG-API-CREATE-POST @REG-API
+Feature: DEMO Create API Testing POST
 
-  Scenario Outline: Validate API submission
+  Scenario Outline: Validate API submission Create POST request
     When TestCaseDataSetup, File-"demoData.xlsx", Sheet-"Create", TestCase-"<TestCaseId>"
     When DemoAPI: Launch "/api/users", Method: "POST"
     Then Verify status code 201 and message "2024"

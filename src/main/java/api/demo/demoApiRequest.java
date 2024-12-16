@@ -1,7 +1,11 @@
 package api.demo;
 
 import api.base.ApiRequestClient;
+import enums.SheetType;
 import io.restassured.response.Response;
+import utilities.ExcelUtils;
+
+import static core.BaseClass.getTestScenarioClass;
 
 public class demoApiRequest {
 
@@ -22,6 +26,14 @@ public class demoApiRequest {
     }
 
     public Response launchDemoApiAndGetResponse(String endpoint, String method){
+        if(!getTestScenarioClass().getSheet().equalsIgnoreCase(SheetType.CREATE.getEnumData())){
+            endpoint = endpoint + "/" + getTestScenarioClass().getUserID();
+        }
+        return apiRequestClient.sendApiRequest(endpoint, method);
+    }
+
+    public Response launchQueryDemoApiAndGetResponse(String endpoint, String queryParam, String method){
+        endpoint = endpoint + "?" + queryParam + "=" + ExcelUtils.getUserId(getTestScenarioClass().getTestCaseID());
         return apiRequestClient.sendApiRequest(endpoint, method);
     }
 }

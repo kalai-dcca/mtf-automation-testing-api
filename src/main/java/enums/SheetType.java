@@ -2,12 +2,12 @@ package enums;
 
 public enum SheetType {
     CREATE("Create"),
-    UPDATE_PUT("Update-put"),
-    UPDATE_PATCH("Update-Patch"),
+    UPDATE_PUT("Update-PUT"),
+    UPDATE_PATCH("Update-PATCH"),
     DELETE("Delete"),
-    SINGLE_RESOURCE("Single-resource"),
-    LIST_USERS("List-Users"),
-    SINGLE_USER("Single-User");
+    SINGLE_RESOURCE("Single Resource"),
+    LIST_USERS("List users"),
+    SINGLE_USER("Single User");
 
     public String enumData;
 
@@ -15,8 +15,8 @@ public enum SheetType {
         enumData = value;
     }
 
-    public void getEnumData(String value){
-        enumData = value;
+    public String getEnumData() {
+        return enumData;
     }
 
     public static SheetType getSheetTypeEnum(String value){
