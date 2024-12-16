@@ -58,13 +58,16 @@ public class demoApiStepDefinition {
 
     @Then("Verify status code {int} and message {string}")
     public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
-        // Validate the status code and response message using the AssertionUtils method
-        boolean result = AssertionUtils.verifyStatusCodeAndMessage((Response) apiResponse, expectedStatusCode, "message", expectedMessage);
+        // Comment about entering state
+        LoggerUtil.logger.info("Verifying status code {} and message {}", expectedStatusCode, expectedMessage);
 
-        // Assert the result to ensure the validation passes
-        assertThat("Status code or message validation failed!", result, equalTo(true));
+        // Validate the status code and response message
+        AssertionUtils.verifyStatusCodeAndMessage((Response) apiResponse, expectedStatusCode, "message", expectedMessage);
+
+        // Comment about closing state
         LoggerUtil.logger.info("Validation completed successfully for status code {} and message {}",
                 expectedStatusCode, expectedMessage);
+        
     }
 
 
@@ -87,16 +90,14 @@ public class demoApiStepDefinition {
 
     @Then("Verify status code {int}")
     public void verifyStatusCode(int expectedStatusCode) {
-        try{
-            // Validate the status code and response message using the AssertionUtils method
-            boolean result = AssertionUtils.verifyStatusCode(getTestScenarioClass().getResponse(), expectedStatusCode);
 
-            // Assert the result to ensure the validation passes
-            assertThat("Status code or message validation failed!", result, equalTo(true));
-            LoggerUtil.logger.info("Validation completed successfully for status code {}",
-                    expectedStatusCode);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // Comment about entering state
+        LoggerUtil.logger.info("Verifying status code {}", expectedStatusCode);
+
+        // Validate the status code
+        AssertionUtils.verifyStatusCode(getTestScenarioClass().getResponse(), expectedStatusCode);
+
+        // Comment about closing state
+        LoggerUtil.logger.info("Validation completed successfully for status code {}", expectedStatusCode);
     }
 }
