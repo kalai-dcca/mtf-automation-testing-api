@@ -4,7 +4,7 @@ Feature: DEMO Create API Testing POST
   Scenario Outline: Validate API submission Create POST request
     When TestCaseDataSetup, File-"demoData.xlsx", Sheet-"Create", TestCase-"<TestCaseId>"
     When DemoAPI: Launch "/api/users", Method: "POST"
-    Then Verify status code 201
+    Then Verify status code 201 and message "2024"
     Examples:
       | TestCaseId |
       | C-TC001    |

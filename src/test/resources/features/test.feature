@@ -6,7 +6,7 @@ Feature: DEMO API Testing
     Then Read test data from the sheet "create" for the "<TestCaseId>"
 
     When DemoAPI: Launch "/api/users", Method: "POST", request params: File "create.json"
-    Then Verify status code 201 and message "test"
+    Then Verify status code 201 and message "2024"
 
     Examples:
       | TestCaseId |

@@ -21,4 +21,8 @@ public class demoApiResponse {
     public boolean containsMessage(String expectedMessage) {
         return getResponseBody().contains(expectedMessage);
     }
+
+    public Response getResponse() {
+        return response;
+    }
 }
