@@ -1,6 +1,5 @@
 Feature: DEMO API Testing
 
-  @wip
   Scenario Outline: Validate API submission
 #    PREP DATA
     When Launch Demo API service and Review API service with test data from the testcase file "demoData.xlsx"
