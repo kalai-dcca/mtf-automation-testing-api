@@ -1,8 +1,10 @@
 package api.base;
 
 import io.cucumber.core.internal.com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.json.JSONObject;
+import utilities.LoggerUtil;
 
 import java.io.File;
 
@@ -55,13 +57,16 @@ public class ApiRequestClient {
             case "PUT":
                 response = given().body(getTestScenarioClass().getJsonObject()).put(baseUrl + endpoint);
                 break;
+            case "PATCH":
+                response = given().body(getTestScenarioClass().getJsonObject()).patch(baseUrl + endpoint);
+                break;
             case "DELETE":
                 response = given().delete(baseUrl + endpoint);
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported HTTP method: " + method);
         }
-
+        response.getBody().prettyPrint();
         return response;
     }
 
