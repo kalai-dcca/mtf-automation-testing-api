@@ -46,9 +46,9 @@ public class ExcelUtils {
         return row;
     }
 
-    public static String getUserId(String testCase){
+    public static int getUserId(String testCase){
         Row row = getRow(testCase);
-        return row.getCell(1).getStringCellValue();
+        return (int)row.getCell(1).getNumericCellValue();
     }
 
     public static JSONObject getDataBasedOnTestCaseAndCallType(String testCase, String sheetType) throws Exception {
@@ -57,19 +57,27 @@ public class ExcelUtils {
         if(Objects.nonNull(row)){
             switch (Objects.requireNonNull(SheetType.getSheetTypeEnum(sheetType))){
                 case CREATE:
-                case UPDATE_PUT:
                     js.put("name",row.getCell(1).getStringCellValue());
                     js.put("job",row.getCell(2).getStringCellValue());
                     break;
+                case UPDATE_PUT:
+                    js.put("name",row.getCell(2).getStringCellValue());
+                    js.put("job",row.getCell(3).getStringCellValue());
+                    break;
                 case UPDATE_PATCH:
-                    if(row.getCell(4).getStringCellValue().equals("all")){
-                        js.put("name",row.getCell(1).getStringCellValue());
-                        js.put("job",row.getCell(2).getStringCellValue());
-                    }else if(row.getCell(4).getStringCellValue().equals("1")){
-                        js.put("name",row.getCell(1).getStringCellValue());
-                    }else{
-                        js.put("job",row.getCell(2).getStringCellValue());
+                    if(row.getCell(4).getStringCellValue().equals("ALL")){
+                        js.put("name",row.getCell(2).getStringCellValue());
+                        js.put("job",row.getCell(3).getStringCellValue());
+                    }else if(row.getCell(4).getStringCellValue().equals("FIRST")){
+                        js.put("name",row.getCell(2).getStringCellValue());
+                    }else if(row.getCell(4).getStringCellValue().equals("SECOND")){
+                        js.put("job",row.getCell(3).getStringCellValue());
                     }
+                    break;
+                case DELETE:
+                case LIST_USERS:
+                case SINGLE_USER:
+                case SINGLE_RESOURCE:
                     break;
                 default:
                     throw new Exception();

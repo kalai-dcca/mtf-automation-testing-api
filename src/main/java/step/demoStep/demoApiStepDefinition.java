@@ -12,6 +12,8 @@ import utilities.AssertionUtils;
 import utilities.ExcelUtils;
 import utilities.LoggerUtil;
 
+import java.util.Objects;
+
 import static core.BaseClass.getTestScenarioClass;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -74,7 +76,11 @@ public class demoApiStepDefinition {
             ExcelUtils excelUtils = new ExcelUtils(BaseClass.TEST_DATA_PATH+fileName,sheet);
             getTestScenarioClass().setExcelUtils(excelUtils);
             getTestScenarioClass().setJsonObject(ExcelUtils.getDataBasedOnTestCaseAndCallType(testCase, sheet));
-
+            getTestScenarioClass().setTestCaseID(testCase);
+            getTestScenarioClass().setSheet(sheet);
+            if(!sheet.equalsIgnoreCase(SheetType.CREATE.getEnumData())){
+                getTestScenarioClass().setUserID(ExcelUtils.getUserId(testCase));
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -98,5 +104,11 @@ public class demoApiStepDefinition {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @When("DemoAPI: Launch {string}, QParam:{string} Method: {string}")
+    public void demoapiLaunchQParamMethod(String url, String queryParam, String APICall) {
+
+        getTestScenarioClass().setResponse(demoApiMethods.launchQueryDemoApiAndGetResponse(url,queryParam,APICall));
     }
 }
