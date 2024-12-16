@@ -8,8 +8,10 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = "step",
-        plugin = {"pretty", "html:target/cucumber-reports.html"},
-        tags = "@REG-API-CREATE"
+        plugin = {"pretty", "html:target/cucumber-reports.html",
+                "utilities.ExtentReportListener"},
+
+        tags = "@wip"
 )
 
 public class TestRunner {
