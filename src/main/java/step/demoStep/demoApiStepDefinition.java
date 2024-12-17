@@ -12,6 +12,8 @@ import utilities.AssertionUtils;
 import utilities.ExcelUtils;
 import utilities.LoggerUtil;
 
+import java.util.Objects;
+
 import static core.BaseClass.getTestScenarioClass;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -58,11 +60,12 @@ public class demoApiStepDefinition {
 
     @Then("Verify status code {int} and message {string}")
     public void verifyStatusCodeAndMessage(int expectedStatusCode, String expectedMessage) {
+
         // Comment about entering state
         LoggerUtil.logger.info("Verifying status code {} and message {}", expectedStatusCode, expectedMessage);
 
-        // Validate the status code and response message
-        AssertionUtils.verifyStatusCodeAndMessage((Response) apiResponse, expectedStatusCode, "message", expectedMessage);
+        // Validate the status code and response message using the AssertionUtils method
+        AssertionUtils.verifyStatusCodeAndMessage(getTestScenarioClass().getResponse(), expectedStatusCode, expectedMessage);
 
         // Comment about closing state
         LoggerUtil.logger.info("Validation completed successfully for status code {} and message {}",
@@ -77,7 +80,11 @@ public class demoApiStepDefinition {
             ExcelUtils excelUtils = new ExcelUtils(BaseClass.TEST_DATA_PATH+fileName,sheet);
             getTestScenarioClass().setExcelUtils(excelUtils);
             getTestScenarioClass().setJsonObject(ExcelUtils.getDataBasedOnTestCaseAndCallType(testCase, sheet));
-
+            getTestScenarioClass().setTestCaseID(testCase);
+            getTestScenarioClass().setSheet(sheet);
+            if(!sheet.equalsIgnoreCase(SheetType.CREATE.getEnumData())){
+                getTestScenarioClass().setUserID(ExcelUtils.getUserId(testCase));
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,5 +106,11 @@ public class demoApiStepDefinition {
 
         // Comment about closing state
         LoggerUtil.logger.info("Validation completed successfully for status code {}", expectedStatusCode);
+    }
+
+    @When("DemoAPI: Launch {string}, QParam:{string} Method: {string}")
+    public void demoapiLaunchQParamMethod(String url, String queryParam, String APICall) {
+
+        getTestScenarioClass().setResponse(demoApiMethods.launchQueryDemoApiAndGetResponse(url,queryParam,APICall));
     }
 }

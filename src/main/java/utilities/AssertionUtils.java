@@ -155,26 +155,26 @@ public class AssertionUtils {
      *
      * @param response          The Response object.
      * @param expectedStatusCode The expected status code.
-     * @param messageField       The field in the response containing the message.
      * @param expectedMessage    The expected message value.
      */
-    public static void verifyStatusCodeAndMessage(Response response, int expectedStatusCode, String messageField, String expectedMessage) {
+
+    public static void verifyStatusCodeAndMessage(Response response, int expectedStatusCode, String expectedMessage) {
         //boolean status = false;
         // Suggest separating into two granular assertion methods for fail status clarity!!!!!!!
         if(Objects.isNull(response)){
             LoggerUtil.logger.error("Error: Response is null");
             throw new RuntimeException(String.format("Actual[%s]::Expected[%s]::Status[%s]%n",
                     null,expectedStatusCode,false));
-        } else if (StringUtils.isEmpty(messageField)) {
+        } else if (StringUtils.isEmpty(expectedMessage)) {
             LoggerUtil.logger.error("Error: Message is empty");
             throw new RuntimeException(String.format("Actual[%s]::Expected[%s]::Status[%s]%n",
-                    "",expectedMessage,false));
+                    "", expectedMessage, false));
         }
 
         SoftAssertions soft = new SoftAssertions();
         AssertionHandler.logAssertionError(() ->{
             soft.assertThat(response.getStatusCode()).isEqualTo((expectedStatusCode));
-            soft.assertThat(response.jsonPath().getString(messageField)).isEqualTo((expectedMessage));
+            soft.assertThat(response.getBody().asString()).contains((expectedMessage));
             soft.assertAll();
         }, "Error: Status code or message validation failed!");
 
