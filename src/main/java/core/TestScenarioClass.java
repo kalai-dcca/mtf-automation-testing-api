@@ -4,6 +4,12 @@ import io.restassured.response.Response;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.json.JSONObject;
 import utilities.ExcelUtils;
+import utilities.LoggerUtil;
+
+import java.util.List;
+import java.util.Map;
+
+import static io.restassured.RestAssured.given;
 
 public class TestScenarioClass extends BaseClass{
     private ExcelUtils excelUtils;
@@ -59,5 +65,15 @@ public class TestScenarioClass extends BaseClass{
 
     public void setSheet(String sheet) {
         this.sheet = sheet;
+    }
+
+    private List<Map<String, Object>> combinedData;
+
+    public List<Map<String, Object>> getCombinedData() {
+        return combinedData;
+    }
+
+    public void setCombinedData(List<Map<String, Object>> combinedData) {
+        this.combinedData = combinedData;
     }
 }

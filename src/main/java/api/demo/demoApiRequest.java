@@ -4,6 +4,7 @@ import api.base.ApiRequestClient;
 import enums.SheetType;
 import io.restassured.response.Response;
 import utilities.ExcelUtils;
+import utilities.LoggerUtil;
 
 import static core.BaseClass.getTestScenarioClass;
 
@@ -36,5 +37,16 @@ public class demoApiRequest {
         endpoint = endpoint + "?" + queryParam + "=" + ExcelUtils.getUserId(getTestScenarioClass().getTestCaseID());
         return apiRequestClient.sendApiRequest(endpoint, method);
     }
+
+    public Response launchQueryDemoApiWithDynamicParam(String endpoint, String queryParam, String queryParamValue, String method) {
+        // Dynamically append the query parameter to the endpoint
+        String finalEndpoint = endpoint + "?" + queryParam + "=" + queryParamValue;
+
+        LoggerUtil.logger.info("Sending {} request to endpoint: {}", method, finalEndpoint);
+
+        // Reuse existing 'sendApiRequest' method for sending the request
+        return apiRequestClient.sendApiRequest(finalEndpoint, method);
+    }
+
 }
 
