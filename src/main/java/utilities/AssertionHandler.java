@@ -1,6 +1,4 @@
-package utils;
-
-import utilities.LoggerUtil;
+package utilities;
 
 public class AssertionHandler {
 
