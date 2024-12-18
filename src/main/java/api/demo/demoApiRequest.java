@@ -5,6 +5,8 @@ import enums.SheetType;
 import io.restassured.response.Response;
 import utilities.ExcelUtils;
 
+import java.util.Objects;
+
 import static core.BaseClass.getTestScenarioClass;
 
 public class demoApiRequest {
@@ -26,8 +28,10 @@ public class demoApiRequest {
     }
 
     public Response launchDemoApiAndGetResponse(String endpoint, String method){
-        if(!getTestScenarioClass().getSheet().equalsIgnoreCase(SheetType.CREATE.getEnumData())){
-            endpoint = endpoint + "/" + getTestScenarioClass().getUserID();
+        if(Objects.nonNull(getTestScenarioClass().getSheet())){
+            if(!getTestScenarioClass().getSheet().equalsIgnoreCase(SheetType.CREATE.getEnumData())){
+                endpoint = endpoint + "/" + getTestScenarioClass().getUserID();
+            }
         }
         return apiRequestClient.sendApiRequest(endpoint, method);
     }

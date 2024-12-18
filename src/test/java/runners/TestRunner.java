@@ -10,7 +10,8 @@ import org.junit.runner.RunWith;
         glue = "step",
         plugin = {"pretty", "html:target/cucumber-reports.html",
                 "utilities.ExtentReportListener"},
-        tags = "@REG-API"
+        dryRun = false,
+        tags = "@JSONFile-API-Test"
 )
 
 public class TestRunner {

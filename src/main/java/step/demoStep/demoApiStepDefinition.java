@@ -7,11 +7,17 @@ import enums.SheetType;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
+import org.json.JSONObject;
 import org.junit.Assert;
 import utilities.AssertionUtils;
 import utilities.ExcelUtils;
+import utilities.FileHandlerUtility;
 import utilities.LoggerUtil;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Map;
 import java.util.Objects;
 
 import static core.BaseClass.getTestScenarioClass;
@@ -112,5 +118,22 @@ public class demoApiStepDefinition {
     public void demoapiLaunchQParamMethod(String url, String queryParam, String APICall) {
 
         getTestScenarioClass().setResponse(demoApiMethods.launchQueryDemoApiAndGetResponse(url,queryParam,APICall));
+    }
+    @When("TestCaseDataSetup")
+    public void test_case_data_setup(Map<String,String> keyValueMap) {
+        JSONObject jsonObject = new JSONObject();
+        for(Map.Entry<String,String> entry : keyValueMap.entrySet()){
+            jsonObject.put(entry.getKey(),entry.getValue());
+        }
+        getTestScenarioClass().setJsonObject(jsonObject);
+    }
+
+    @When("TestCaseDataSetup, JSONFile-{string}")
+    public void testcasedatasetupJSONFile(String fileName) throws IOException {
+        String fileLocation = "src/test/resources/json/" + fileName;
+        String body = new String(Files.readAllBytes(Paths.get(fileLocation)));
+        JSONObject jsonObject = new JSONObject(body);
+        jsonObject.put("","");
+        getTestScenarioClass().setJsonObject(jsonObject);
     }
 }
