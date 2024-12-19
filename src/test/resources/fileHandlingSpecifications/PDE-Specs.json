@@ -1,0 +1,16 @@
+{
+  "columns": {
+    "Claim ID": {
+      "start": 0,
+      "end": 10,
+    },
+    "Prescription ID": {
+      "start": "50",
+      "end": "61"
+    },
+    "Event Trigger Timestamp": {
+      "start": "70",
+      "end": "81"
+    }
+  }
+}

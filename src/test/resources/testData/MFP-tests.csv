@@ -1,3 +1,0 @@
-test_case_id, sql_description, sql_query, expected_value
-1, "Retrieving Drug Name", "select drug_name from drugs;", "insulin, tylenol, vaccine"
-2, "Count all rows", "select count(*) from drugs", 32

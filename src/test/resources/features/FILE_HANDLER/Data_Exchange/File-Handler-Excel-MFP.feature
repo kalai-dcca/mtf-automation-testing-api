@@ -25,8 +25,7 @@ Feature: Data Exchange MFP Excel File Ingestion
     Given the file "MFP-current.xlsx" is downloaded in the S3 bucket identified by "IDR"
     And the file "MFP-current.xlsx" follows the specification in "MFP-Specs.json"
     When the "dataXchange" microservice processes the file
-    Then the "MFP-current.xlsx" data is updated in the "dataXchange" database identified by "MFP_DB":
-    Then the "MFP-current.xlsx" data is updated in the database identified by "MFP_DB":
+    Then verify "MFP-current.xlsx" data in the "MFP-DataXchange-DB" database matches values:
       | test_case_id | sql_description      | sql_query                   | expected_value            |
       | 1            | Retrieving Drug Name | select ndc_eleven from mfp; | getFromFile("ndc_eleven") |
       | 2            | Count all rows       | select count(*) from mfp;   | getRowCountFromFile()     |
