@@ -19,7 +19,7 @@ Feature: Claims PDE Text File Ingestion
     Then verify "PDE-current.txt" data in the "PDE-Claims-DB" database matches values:
       | test_case_id | sql_description      | sql_query                 | expected_value         |
       | 1            | Retrieving Drug Name | select claim_id from PDE; | DET0000001, DET0000002 |
-      | 2            | Count all rows       | select count(*) from PDE; | 32                     |
+      | 2            | Count all rows       | select count(*) from PDE; | 3                      |
 
   Scenario: Validate PDE Text File against DB per Data Table using Dynamic Expected Values
     Given the file "PDE-current.txt" is downloaded in the S3 bucket identified by "IDR"

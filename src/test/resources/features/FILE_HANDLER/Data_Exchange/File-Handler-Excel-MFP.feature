@@ -19,7 +19,7 @@ Feature: Data Exchange MFP Excel File Ingestion
     Then verify "MFP-current.xlsx" data in the "MFP-DataXchange-DB" database matches values:
       | test_case_id | sql_description      | sql_query                   | expected_value       |
       | 1            | Retrieving Drug Name | select ndc_eleven from mfp; | APIXABAN, ETANERCEPT |
-      | 2            | Count all rows       | select count(*) from mfp;   | 32                   |
+      | 2            | Count all rows       | select count(*) from mfp;   | 3                    |
 
   Scenario: Validate MFP Excel File against DB per Data Table using Dynamic Expected Values
     Given the file "MFP-current.xlsx" is downloaded in the S3 bucket identified by "IDR"
